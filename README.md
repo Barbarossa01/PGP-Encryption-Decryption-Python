@@ -16,6 +16,7 @@ This repository contains Python scripts for generating PGP keys, encrypting file
 You can install the required library using pip:
 
 ```bash
+```
 pip install python-gnupg
 
 
