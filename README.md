@@ -31,9 +31,10 @@
 <p>Below are demonstrations of the main functions of the application:</p>
 
 <ul>
-  <li><strong>Key Generation</strong>:
-    <br><img src="link_to_your_key_generation_gif" alt="Key Generation Test">
-  </li>
+<h2>Key Generation Script</h2>
+<p>This section showcases the script used to generate the public/private keys:</p>
+![Key Generation Script](https://raw.githubusercontent.com/Barbarossa01/PGP-Encryption-Decryption-Python/main/images/gen_admin_keyScript.PNG)
+
 
   <li><strong>File Encryption</strong>:
 ![Description of the image](https://raw.githubusercontent.com/Barbarossa01/PGP-Encryption-Decryption-Python/main/images/gen_admin_keyScript.PNG)
