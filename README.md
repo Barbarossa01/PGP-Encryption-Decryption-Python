@@ -17,3 +17,15 @@ You can install the required library using pip:
 
 ```bash
 pip install python-gnupg
+
+
+```Usage
+1. Generating Keys
+    <br><img src="" alt="Generating Keys">
+https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/gen_admin_keyScript.PNG
+
+In the script above :
+- Setting Up GnuPG :
+<code> gpg = gnupg.GPG(gnupghome='/home/alice/.gnupg')
+gpg.encoding = 'utf-8'
+</code>
