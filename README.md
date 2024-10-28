@@ -16,13 +16,14 @@ This repository contains Python scripts for generating PGP keys, encrypting file
 You can install the required library using pip:
 
 ```bash
-```
+``` ``` 
 pip install python-gnupg
+```
 
-
-```Usage
+Usage
 1. Generating Keys
-    <br><img src="" alt="Generating Keys">
+    <br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/gen_admin_keyScript.PNG
+" alt="Generating Keys">
 https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/gen_admin_keyScript.PNG
 
 In the script above :
