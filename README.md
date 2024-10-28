@@ -33,7 +33,7 @@
 <ul>
 <h2>Key Generation Script</h2>
 <p>This section showcases the script used to generate the public/private keys:</p>
-![Key Generation Script](https://raw.githubusercontent.com/Barbarossa01/PGP-Encryption-Decryption-Python/main/images/gen_admin_keyScript.PNG?raw=true)
+![gen_admin_keyScript](https://github.com/user-attachments/assets/2af1b7a8-6092-4a6b-98de-6b95da75f365)
 
 
   <li><strong>File Encryption</strong>:
