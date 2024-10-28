@@ -1,63 +1,103 @@
-<h1>PGP Encryption and Decryption</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>PGP Encryption and Decryption with Python-GnuPG</h1>
+    <h2>Introduction</h2>
+    <p>This project demonstrates the use of the <code>python-gnupg</code> module for encrypting and decrypting files using GnuPG. To get started, you need to set up the GnuPG interface by initializing it with the following command:</p>
+    <pre><code>gpg = gnupg.GPG(gnupghome='/path/to/home/directory')</code></pre>
+    <ol>
+        <li>
+            <strong>Key Generation</strong>: 
+            <ul>
+                <li>Generate a passphrase-protected private key and a public key.</li>
+                <li>Define the <code>name_email</code> which represents the public key and will be used in the encryption phase.</li>
+                  <br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/gen_admin_keyScript.PNG" alt="Script for generate keys">
+                <li>Assign a passphrase that will be essential for decrypting the encrypted files.</li>
+                <li>Specify the <code>key_type</code> and <code>key_length</code> as needed.</li>
+                <li>Use <code>key = gpg.gen_key(input_data)</code> to generate the key locally in the <code>.gnupg</code> folder.</li>
+                <li>To share the key with another person, you will need to export it.</li>
+            </ul>
+              <h2>Generated Public Key</h2>
+    <p>The generated public key is stored in the file <code>admin_pub_key.asc</code>. This file contains the public key that can be shared with others to allow them to encrypt files that only the corresponding private key can decrypt.</p>
+<br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/generatedPublicKey.PNG" alt="generating public key">
+        <h4>Key Fingerprint</h4>
+    <p>The key fingerprint is a unique identifier for the generated public key. It is a shorter representation of the public key, typically consisting of 40 hexadecimal characters. You can find the fingerprint of your public key by the following line in python:</p>
+    <pre><code># Print the key ID (this is what `key` should represent)
+print(key)  # This will print the key ID
 
-<h2>Overview</h2>
-<p>This project demonstrates how to generate PGP keys, encrypt files, and decrypt them using the GnuPG library in Python. It includes scripts for key generation, file encryption, and decryption, showcasing secure data handling practices. The project is suitable for anyone interested in learning about encryption methods and implementing them in Python.</p>
+key_info = gpg.list_keys(secret=True)  # Get a list of all secret keys
+for k in key_info:
+    if key.fingerprint == k['fingerprint']:
+        print("Key Fingerprint:", k['fingerprint'])
+</code></pre>
+    <p>This fingerprint can be shared with others to verify the authenticity of your public key.</p>
+<br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/KeyFingerprint.PNG" alt="fingerprint">
 
-<h2>Features</h2>
-<ul>
-  <li><strong>Key Generation</strong>:  
+  </li>
+        </li>
+        <li>
+            <strong>File Encryption</strong>: 
+            <ul>
+                <li>To encrypt files using the generated key, define the path of the unencrypted file.</li>
+                <li>Open the file in Python and encrypt it using:</li>
+                <pre><code>status = gpg.encrypt_file(...)</code></pre>
+                <li>In the <code>recipients</code> parameter, use the <code>name_email</code> from the previous step.</li>
+<br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/encryptFolderScript.PNG" alt="fingerprint">
+                            <p>Here are the results after running a script encrypt.py to encrypt all the files in a target folder</p>
+              <br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/encryptingFolder.PNG" alt="fingerprint">
+                              <p>Note that all the files in a given folder encrypted with an output name name.txt.encrypted, how the encrypted file looks like where it's unreadable</p>
+<br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/encryptedFiles.PNG" alt="fingerprint">
+            </ul>
+        </li>
+        <li>
+            <strong>File Decryption</strong>: 
+            <ul>
+                <li>Similar to the encryption step, read the encrypted file in Python but use the following method:</li>
+                <pre><code>status = gpg.decrypt_file(...)</code></pre>
+                <li>Note that this phase requires the passphrase associated with your private key. Without the private key, decryption is not possible.</li>
+              <br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/DecryptionFileScript.PNG" alt="fingerprint">
+              <p>Here are the results of decrypting file successfully </p>
+<br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/decryptingEncryptedFile.PNG" alt="fingerprint">
+              <p>And now we would be able to read it successfully, of course with the generated private key</p>
+              <br><img src="https://github.com/Barbarossa01/PGP-Encryption-Decryption-Python/blob/main/images/generatedDecryptedFile.PNG" alt="fingerprint">
+            </ul>
+        </li>
+        <li>
+            <strong>Batch File Encryption</strong>: 
+            <ul>
+                <li>Encrypting multiple files can be achieved by looping through all the files in a folder and using the same encryption method:</li>
+                <pre><code>status = gpg.encrypt_file(...)</code></pre>
+            </ul>
+        </li>
+        <li>
+            <strong>Importing Public Keys for Encryption</strong>: 
+            <ul>
+                <li>If you have a public key from another person and want to encrypt a file using that key, you need to import it first.</li>
+                <li>This can be done by reading the key and importing it with:</li>
+                <pre><code>gpg.import_keys(...)</code></pre>
+                <li>Set the trust level of the imported keys to <code>ULTIMATE</code>, which is the highest level of trust.</li>
+              import gnupg
+   <pre><code>
+gpg = gnupg.GPG(gnupghome='/home/alice/.gnupg')  # Fixed path
+key_data = open('bob_pub_key.asc').read()
+import_result = gpg.import_keys(key_data)
+
+# Setting the trust level of the imported keys to ULTIMATE
+gpg.trust_keys(import_result.fingerprints, 'TRUST_ULTIMATE')
+mykeys = gpg.list_keys()
+print(mykeys)
+ </code></pre>
+            </ul>
+        </li>
+    </ol>
+    <h2>Requirements</h2>
     <ul>
-      <li>Generate a public/private key pair for secure communication.</li>
-      <li>Export the public key for sharing with others.</li>
+        <li>Python</li>
+        <li>python-gnupg module</li>
     </ul>
-  </li>
-
-  <li><strong>File Encryption</strong>:
-    <ul>
-      <li>Encrypt files in a specified directory using the generated public key.</li>
-      <li>Support for batch encryption of multiple files.</li>
-    </ul>
-  </li>
-
-  <li><strong>File Decryption</strong>:
-    <ul>
-      <li>Decrypt files using the corresponding private key and passphrase.</li>
-      <li>Output the decrypted files for access.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2>Test GIFs</h2>
-<p>Below are demonstrations of the main functions of the application:</p>
-
-<ul>
-<h2>Key Generation Script</h2>
-<p>This section showcases the script used to generate the public/private keys:</p>
-![gen_admin_keyScript](https://github.com/user-attachments/assets/2af1b7a8-6092-4a6b-98de-6b95da75f365)
-
-
-  <li><strong>File Encryption</strong>:
-![Description of the image](https://raw.githubusercontent.com/Barbarossa01/PGP-Encryption-Decryption-Python/main/images/gen_admin_keyScript.PNG)
-  </li>
-
-  <li><strong>File Decryption</strong>:
-    <br><img src="link_to_your_file_decryption_gif" alt="File Decryption Test">
-  </li>
-</ul>
-
-<h2>Technology Stack</h2>
-<ul>
-  <li><strong>Programming Language</strong>: Python</li>
-  <li><strong>Library</strong>: GnuPG (python-gnupg)</li>
-</ul>
-
-<h2>Installation</h2>
-<ol>
-  <li>Clone the repository: <code>git clone https://github.com/yourusername/pgp-encryption-decryption</code></li>
-  <li>Navigate to the project directory: <code>cd pgp-encryption-decryption</code></li>
-  <li>Install required dependencies: <code>pip install python-gnupg</code></li>
-  <li>Run the key generation script: <code>python gen_keys.py</code></li>
-  <li>Follow the prompts to create and export your public key.</li>
-  <li>Use the encryption script to encrypt files: <code>python encrypt.py</code></li>
-  <li>Decrypt files using the decryption script: <code>python decrypt.py</code></li></li>
-</ol>
+</body>
+</html>
