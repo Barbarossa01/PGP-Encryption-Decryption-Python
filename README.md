@@ -36,7 +36,7 @@
   </li>
 
   <li><strong>File Encryption</strong>:
-    <br><img src="link_to_your_file_encryption_gif" alt="File Encryption Test">
+![Description of the image](https://raw.githubusercontent.com/Barbarossa01/PGP-Encryption-Decryption-Python/main/images/gen_admin_keyScript.PNG)
   </li>
 
   <li><strong>File Decryption</strong>:
